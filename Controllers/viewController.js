@@ -1,3 +1,4 @@
+const Booking = require('../Models/bookingModel');
 const Tour = require('../Models/tourModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
@@ -37,6 +38,12 @@ exports.getLoginForm = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getSignupForm = catchAsync(async (req, res, next) => {
+  res.status(200).render('signup', {
+    title: `Sign up with Natours`,
+  });
+});
+
 exports.getAccount = catchAsync(async (req, res, next) => {
   res.status(200).render('account', {
     title: `Your account`,
@@ -55,5 +62,18 @@ exports.getResetPassword = catchAsync(async (req, res, next) => {
 exports.getForgetPassword = catchAsync(async (req, res, next) => {
   res.status(200).render('forgetPassword', {
     title: `Please Provide your email`,
+  });
+});
+
+exports.getMyBookings = catchAsync(async (req, res, next) => {
+  const myBookings = await Booking.find({ user: req.user.id });
+
+  console.log(myBookings);
+
+  const tours = await Tour.find({ _id: { $in: myBookings.map((el) => el.tour) } });
+
+  res.status(200).render('overview', {
+    title: `My Bookings`,
+    tours,
   });
 });

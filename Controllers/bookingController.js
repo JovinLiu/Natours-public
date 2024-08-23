@@ -1,13 +1,16 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Booking = require('../Models/bookingModel');
 const Tour = require('../Models/tourModel');
 const catchAsync = require('../utils/catchAsync');
+const { getAll, getOne, createOne, updateOne, deleteOne } = require('./handlerFactory');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
+    //unsecure way, will be changed when deployed
+    success_url: `${req.protocol}://${req.get('host')}/tours/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
     // success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
@@ -34,3 +37,20 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 });
+
+// This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
+exports.createBookingCheckout = catchAsync(async (req, res, next) => {
+  const { user, tour, price } = req.query;
+
+  if (!user || !tour || !price) return next();
+
+  await Booking.create({ user, tour, price });
+
+  res.redirect(req.originalUrl.split('?')[0]);
+});
+
+exports.getAllBookings = getAll(Booking);
+exports.getBooking = getOne(Booking);
+exports.createBooking = createOne(Booking);
+exports.updateBooking = updateOne(Booking);
+exports.deleteBooking = deleteOne(Booking);

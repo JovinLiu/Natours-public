@@ -1,14 +1,18 @@
 /*eslint-disable*/
 import '@babel/polyfill';
+//Handler Functions
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateUser } from './updateUser';
 import { resetPassword } from './resetPassword';
 import { forgetPassword } from './forgetPassword';
 import { bookTour } from './stripe';
+import { signUp } from './signup';
 
+//Buttons on the page
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const signUpForm = document.querySelector('.form--signup');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const updateUserBtn = document.querySelector('.form-user-data');
 const updatePwdBtn = document.querySelector('.form-user-password');
@@ -88,5 +92,17 @@ if (bookTourBtn) {
   bookTourBtn.addEventListener('click', async (e) => {
     e.target.textContent = `Processing.........`;
     await bookTour(e.target.dataset.tourId);
+  });
+}
+
+if (signUpForm) {
+  signUpForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const name = document.getElementById('name').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    document.querySelector('.btn--signup').textContent = 'Processing......';
+    await signUp({ email, name, password, passwordConfirm });
   });
 }
