@@ -1,4 +1,4 @@
-node_modules
-config.eenv
+node_modules/
+*.env
 dev-data
 .cache
