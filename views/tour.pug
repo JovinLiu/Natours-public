@@ -1,0 +1,86 @@
+extends base
+
+block append head
+  link(href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet")
+  script(src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js")
+
+mixin overviewBox (label, text, icon)
+  .overview-box__detail
+    svg.overview-box__icon
+      use(xlink:href=`${icon}`)
+    span.overview-box__label= label
+    span.overview-box__text= text
+
+mixin overviewBoxGroup (label, name, photo)
+  .overview-box__detail
+    img.overview-box__img(src=`/img/users/${photo}` alt=`${label}`)
+    span.overview-box__label= label
+    span.overview-box__text= name
+
+block content
+
+  section.section-header
+    .header__hero
+      .header__hero-overlay &nbsp;
+      img.header__hero-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
+
+    .heading-box
+      h1.heading-primary
+        span= `${tour.name} Tour`
+      .heading-box__group
+        .heading-box__detail
+          svg.heading-box__icon
+            use(xlink:href="/img/icons.svg#icon-clock")
+          span.heading-box__text= `${tour.duration} days`
+        .heading-box__detail
+          svg.heading-box__icon
+            use(xlink:href="/img/icons.svg#icon-map-pin")
+          span.heading-box__text= tour.startLocation.description
+
+  section.section-description
+    .overview-box
+      div
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg Quick facts
+          - const date = tour.startDates[0].toLocaleString('en-us', {month:"long", year:"numeric"})
+          +overviewBox('Next date', date, "/img/icons.svg#icon-calendar")
+          +overviewBox('Difficulty', tour.difficulty, "/img/icons.svg#icon-trending-up")
+          +overviewBox('Participants', `${tour.maxGroupSize} people`, "/img/icons.svg#icon-user")
+          +overviewBox('Rating', `${tour.ratingsAverage}/5`, "/img/icons.svg#icon-star")
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg Your tour guides
+          each guide in tour.guides
+            +overviewBoxGroup (guide.role.split('-').join(' '), guide.name, guide.photo)
+
+    .description-box
+      h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
+      - const description = tour.description.split('\n') 
+      each text in description
+        p.description__text= text
+
+  section.section-pictures
+    each picture, i in tour.images
+      .picture-box
+        img.picture-box__img(src=`/img/tours/${picture}` alt=`${tour.name} Tour ${i+1}` class= `picture-box__img--${i+1}`)
+
+  section.section-map
+    #map(data-locations=`${JSON.stringify(tour.locations)}`)
+
+  section.section-reviews
+    .reviews
+      each review in tour.reviews
+        include _reviewCard
+
+  section.section-cta
+    .cta
+      .cta__img.cta__img--logo
+        img(src="/img/logo-white.png" alt="Natours logo")
+      img(src=`/img/tours/${tour.images[0]}` alt="tour image" class="cta__img cta__img--1")
+      img(src=`/img/tours/${tour.images[1]}` alt="tour image" class="cta__img cta__img--2")
+      .cta__content
+        h2.heading-secondary Call to action
+        p.cta__text Imagine yourself exploring exotic destinations, discovering hidden gems, and creating unforgettable memories. Our website is your gateway to the world, offering exclusive deals and insider tips to help you plan the perfect getaway. Whether you're seeking a relaxing beach escape, a thrilling adventure, or a cultural immersion, we've got something for every traveler.
+        if user
+          button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
+        else
+          a.btn.btn--green.span-all-rows(href="/login") Login / Signup now!
