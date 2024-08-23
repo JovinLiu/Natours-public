@@ -68,8 +68,6 @@ exports.getForgetPassword = catchAsync(async (req, res, next) => {
 exports.getMyBookings = catchAsync(async (req, res, next) => {
   const myBookings = await Booking.find({ user: req.user.id });
 
-  console.log(myBookings);
-
   const tours = await Tour.find({ _id: { $in: myBookings.map((el) => el.tour) } });
 
   res.status(200).render('overview', {

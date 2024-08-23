@@ -134,7 +134,6 @@ tourSchema.virtual('reviews', {
 //·document middleware: 在保存之前插入slug，在保存前log：“will save document”，在保存后log：doc
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
-  // console.log(this);
   next();
 });
 
@@ -165,7 +164,7 @@ tourSchema.post(/^find/, function (docs, next) {
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: false } });
 
-  console.log(this.pipeline());
+  // console.log(this.pipeline());
 
   if (this.pipeline()[1].$geoNear) {
     this.pipeline().shift();

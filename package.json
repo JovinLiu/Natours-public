@@ -46,6 +46,7 @@
     "chalk": "^4.1.2",
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",
+    "compression": "^1.7.4",
     "concat-map": "^0.0.1",
     "confusing-browser-globals": "^1.0.11",
     "cookie-parser": "^1.4.6",
@@ -268,7 +269,7 @@
     "importAll": "node dev-data/data/importDevData.js --import",
     "deleteAll": "node dev-data/data/importDevData.js --delete",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Jovin Liu",
   "license": "ISC",

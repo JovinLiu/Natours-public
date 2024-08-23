@@ -2,6 +2,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const csp = require('express-csp');
+const compression = require('compression');
 //Security Middleware
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -122,6 +123,9 @@ app.use(
     ],
   }),
 );
+
+app.use(compression());
+
 //custom middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();

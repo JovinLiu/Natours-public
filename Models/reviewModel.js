@@ -54,8 +54,6 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
     { $group: { _id: '$tour', ratingsQuantity: { $sum: 1 }, ratingsAverage: { $avg: '$rating' } } },
   ]);
 
-  console.log('stats:', stats);
-
   await Tour.findByIdAndUpdate(tourId, {
     ratingsAverage: stats[0] ? stats[0].ratingsAverage : 4.5,
     ratingsQuantity: stats[0] ? stats[0].ratingsQuantity : 0,

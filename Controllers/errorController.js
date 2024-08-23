@@ -1,7 +1,6 @@
 const AppError = require('../utils/appError');
 
 const sendErrorDev = (err, req, res) => {
-  console.log(req.originalUrl);
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.statusCode).json({
       status: err.status,
