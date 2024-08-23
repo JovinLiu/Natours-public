@@ -263,7 +263,8 @@
     "yocto-queue": "^0.1.0"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "debug": "ndb server.js",
     "production": "NODE_ENV=production nodemon server.js",
     "importAll": "node dev-data/data/importDevData.js --import",
