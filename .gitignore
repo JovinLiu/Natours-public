@@ -1,4 +1,3 @@
 node_modules/
-dev-data/
-config.env
 .cache/
+config.env
