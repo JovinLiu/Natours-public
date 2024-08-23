@@ -86,7 +86,7 @@ if (forgetPwdBtn) {
 
 if (bookTourBtn) {
   bookTourBtn.addEventListener('click', async (e) => {
-    e.target.textContent = 'Processing...';
+    e.target.textContent = `Processing.........`;
     await bookTour(e.target.dataset.tourId);
   });
 }

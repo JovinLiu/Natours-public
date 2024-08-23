@@ -81,6 +81,6 @@ block content
         h2.heading-secondary Call to action
         p.cta__text Imagine yourself exploring exotic destinations, discovering hidden gems, and creating unforgettable memories. Our website is your gateway to the world, offering exclusive deals and insider tips to help you plan the perfect getaway. Whether you're seeking a relaxing beach escape, a thrilling adventure, or a cultural immersion, we've got something for every traveler.
         if user
-          button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
+          button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`)= `  Book tour now!   `
         else
           a.btn.btn--green.span-all-rows(href="/login") Login / Signup now!
