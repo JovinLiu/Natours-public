@@ -18,7 +18,6 @@ export const signUp = async (data) => {
       }, 1500);
     }
   } catch (err) {
-    console.log(err);
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.response.statusText);
   }
 };
