@@ -23,7 +23,7 @@ const globalErrorHandler = require('./Controllers/errorController');
 const AppError = require('./utils/appError');
 const { webhookCheckout } = require('./Controllers/bookingController');
 
-app.enable('trust proxy');
+// app.enable('trust proxy');
 
 //1 middleware stack
 //Security HTTP Header
