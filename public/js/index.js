@@ -8,6 +8,7 @@ import { resetPassword } from './resetPassword';
 import { forgetPassword } from './forgetPassword';
 import { bookTour } from './stripe';
 import { signUp } from './signup';
+import { showAlert } from './alerts';
 
 //Buttons on the page
 const mapBox = document.getElementById('map');
@@ -19,6 +20,7 @@ const updatePwdBtn = document.querySelector('.form-user-password');
 const resetPwdBtn = document.querySelector('.form-user-resetPassword');
 const forgetPwdBtn = document.querySelector('.form-user-forgetPassword');
 const bookTourBtn = document.getElementById('book-tour');
+const alertMessage = document.querySelector('body').dataset.alert;
 
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
@@ -106,3 +108,5 @@ if (signUpForm) {
     await signUp({ email, name, password, passwordConfirm });
   });
 }
+
+if (alertMessage) showAlert('success', alertMessage);

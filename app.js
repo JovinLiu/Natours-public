@@ -11,6 +11,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 const tourRouter = require('./Routes/tourRoutes');
@@ -20,6 +21,9 @@ const bookingRouter = require('./Routes/bookingRoutes');
 const viewRouter = require('./Routes/viewRoutes');
 const globalErrorHandler = require('./Controllers/errorController');
 const AppError = require('./utils/appError');
+const { webhookCheckout } = require('./Controllers/bookingController');
+
+app.enable('trust proxy');
 
 //1 middleware stack
 //Security HTTP Header
@@ -89,6 +93,12 @@ csp.extend(app, {
     },
   },
 });
+//implement CORS
+app.use(cors());
+app.options('*', cors());
+
+//stripe webhooks，要求出现在body parser之前
+app.post('/webhook-checkout', express.raw({ type: 'application/json' }), webhookCheckout);
 
 //Body Parser
 app.use(express.json({ limit: '10kb' }));
@@ -124,6 +134,7 @@ app.use(
   }),
 );
 
+//压缩最终的文件
 app.use(compression());
 
 //custom middleware

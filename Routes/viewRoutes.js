@@ -9,14 +9,17 @@ const {
   getResetPassword,
   getForgetPassword,
   getMyBookings,
+  alerts,
 } = require('../Controllers/viewController');
 const { isLoggedIn, protect } = require('../Controllers/authController');
-const { createBookingCheckout } = require('../Controllers/bookingController');
+// const { createBookingCheckout } = require('../Controllers/bookingController');
 
 const router = express.Router();
 
+router.use(alerts);
+
 router.route('/').get(homepage);
-router.route('/tours').get(createBookingCheckout, isLoggedIn, getOverview);
+router.route('/tours').get(isLoggedIn, getOverview);
 router.route('/forgetPassword').get(getForgetPassword);
 router.route('/resetPassword/:token').get(getResetPassword);
 router.route('/tour/:slug').get(isLoggedIn, getTour);

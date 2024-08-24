@@ -50,6 +50,7 @@
     "concat-map": "^0.0.1",
     "confusing-browser-globals": "^1.0.11",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "cross-spawn": "^7.0.3",
     "damerau-levenshtein": "^1.0.8",
     "data-view-buffer": "^1.0.1",
@@ -275,6 +276,6 @@
   "author": "Jovin Liu",
   "license": "ISC",
   "engines": {
-    "node": ">=10.0.0"
+    "node": "^19.9.0"
   }
 }
